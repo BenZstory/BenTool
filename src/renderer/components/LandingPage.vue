@@ -44,7 +44,7 @@
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+  /* @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
   * {
     box-sizing: border-box;
@@ -124,5 +124,5 @@
   .doc button.alt {
     color: #42b983;
     background-color: transparent;
-  }
+  } */
 </style>

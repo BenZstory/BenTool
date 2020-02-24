@@ -6,8 +6,6 @@
 import { createLocalStore } from '@/utils/LocalStore'
 
 const localStore = createLocalStore()
-console.log("BENZZZZZZZ createLocalStore")
-console.log(localStore)
 const files = require.context('.', false, /\.js$/)
 const modules = {}
 

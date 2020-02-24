@@ -37,18 +37,24 @@ let webConfig = {
         exclude: /node_modules/
       },
       {
-        test: /\.scss/,
-        use: ['style-loader', 'css-loader','sass-loader']
+        test: /\.scss$/,
+        use: ['vue-style-loader', 'css-loader', 'sass-loader?data=@import "./src/renderer/assets/stylesheets/main";']
+      },
+      {
+        test: /\.sass$/,
+        use: ['vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax=1&data=@import "./src/renderer/assets/stylesheets/main"']
       },
       {
         test: /\.vue$/,
         use: {
           loader: 'vue-loader',
           options: {
-            extractCSS: true,
+            extractCSS: process.env.NODE_ENV === 'production',
             loaders: {
-              sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-              scss: 'vue-style-loader!css-loader!sass-loader',
+              sass:
+                'vue-style-loader!css-loader!sass-loader?indentedSyntax=1&data=@import "./src/renderer/assets/stylesheets/main"',
+              scss:
+                'vue-style-loader!css-loader!sass-loader?data=@import "./src/renderer/assets/stylesheets/main";',
               less: 'vue-style-loader!css-loader!less-loader'
             }
           }

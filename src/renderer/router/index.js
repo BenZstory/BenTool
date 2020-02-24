@@ -7,6 +7,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'converter-page',
+      component: require('@/components/ConverterPage').default
+    },
+    {
+      path: '/landing-page',
       name: 'landing-page',
       component: require('@/components/LandingPage').default
     },

@@ -12,7 +12,11 @@ export const defaults = generateSettings()
 function generateSettings() {
   return {
     alwaysOnTop: false,
-    minToTray: false
+    minToTray: false,
+    pathConvertEnable: true,
+    pathConvertShortcut: 'CommandOrControl+I',
+    pathConvertWinPrefix: '',
+    pathConvertUnixPrefix: '',
   }
 }
 
@@ -24,7 +28,7 @@ function generateSettings() {
  */
 export function createLocalStore() {
   // copy defaults object
-  return new LocalStore('user-preferences', Object.assign({}, defaults))
+  return new LocalStore('bentool-user-preferences', Object.assign({}, defaults))
 }
 
 /**
@@ -45,6 +49,7 @@ export default class LocalStore {
       'userData'
     )
     this.path = path.join(userDataPath, filename + '.json')
+    console.log("localstore path = " + this.path)
     this.data = parseDataFile(this.path, data)
   }
 

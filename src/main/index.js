@@ -1,5 +1,7 @@
 import { createLocalStore } from './../renderer/utils/LocalStore'
-import { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'electron'
+import { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage, globalShortcut, clipboard } from 'electron'
+import pathConverter from './../renderer/utils/PathConverter'
+import {WindowEnum, windowManager} from './apis/windowManager'
 
 const path = require('path')
 const localStore = createLocalStore()
@@ -28,6 +30,7 @@ app.on('ready', () => {
 
   // this must be set after window has been created on ubuntu 18.04
   mainWindow.setAlwaysOnTop(alwaysOnTop)
+  pathConverter.init(mainWindow, localStore)
 })
 
 app.on('window-all-closed', () => {
@@ -66,9 +69,21 @@ ipcMain.on('window-minimize', (event, arg) => {
   }
 })
 
+ipcMain.on('update-converter-shortcut', (event, arg) => {
+  pathConverter.updateShortcut(arg)
+})
+
+ipcMain.on('update-WinPrefix', (event, arg) => {
+  pathConverter.updateWinPrefix(arg)
+})
+
+ipcMain.on('update-UnixPrefix', (event, arg) => {
+  pathConverter.updateUnixPrefix(arg)
+})
+
 function createTray() {
   tray = new Tray(path.join(__static, 'icon.png'))
-  tray.setToolTip('Pomotroid\nClick to Restore')
+  tray.setToolTip('PathConverter\nClick to Restore')
   tray.setContextMenu(Menu.buildFromTemplate([{ role: 'quit' }]))
   tray.on('click', () => {
     mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
@@ -80,21 +95,7 @@ function createTray() {
 
 function createWindow() {
   const alwaysOnTop = localStore.get('alwaysOnTop')
-  mainWindow = new BrowserWindow({
-    alwaysOnTop,
-    backgroundColor: '#2F384B',
-    fullscreenable: false,
-    // frame: false,
-    icon: path.join(__static, 'icon.png'),
-    resizable: false,
-    useContentSize: true,
-    width: 720,
-    height: 478,
-    webPreferences: {
-      backgroundThrottling: false,
-      nodeIntegration: true
-    }
-  })
+  mainWindow = windowManager.get(WindowEnum.MAIN_WINDOW)
 
   mainWindow.loadURL(winURL)
 
@@ -110,6 +111,7 @@ function createWindow() {
 
   mainWindow.on('closed', () => {
     mainWindow = null
+    
   })
 }
 

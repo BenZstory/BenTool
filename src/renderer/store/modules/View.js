@@ -1,20 +1,24 @@
 import { localStore } from './index'
 
-console.log("BENZZZZZZ localStore = ")
-console.log(localStore)
-
 const state = {
-  currentDrawer: 'appDrawerMain',
+  currentDrawer: 'appDrawerConverter',
   drawerOpen: false,
   main: 0,
   alwaysOnTop: localStore.get('alwaysOnTop'),
   minToTray: localStore.get('minToTray'),
   clipboardOriginal : '',
   clipboardConverted: '',
-  // os: process.platform
+  pathConvertShortcut : localStore.get('pathConvertShortcut'),
+  pathConvertWinPrefix: localStore.get('pathConvertWinPrefix'),
+  pathConvertUnixPrefix: localStore.get('pathConvertUnixPrefix'),
+  os: process.platform
 }
 
 const getters = {
+  currentDrawer() {
+    return state.currentDrawer
+  },
+
   drawerOpen() {
     return state.drawerOpen
   },
@@ -33,6 +37,22 @@ const getters = {
 
   clipboardConverted() {
     return state.clipboardOriginal
+  },
+
+  pathConvertShortcut() {
+    return state.pathConvertShortcut
+  },
+
+  pathConvertWinPrefix() {
+    return state.pathConvertWinPrefix
+  },
+
+  pathConvertUnixPrefix() {
+    return state.pathConvertUnixPrefix
+  },
+
+  os() {
+    return state.os
   }
 }
 

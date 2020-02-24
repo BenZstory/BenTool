@@ -15,93 +15,17 @@
       </div>
     </div>
 
-    <h1 class="Title">Pomotroid</h1>
+    <h1 class="Title">PathConverter</h1>
 
     <div
-      class="Icon-group"
-      style="position: absolute; top: 0; right: 0;"
+      class="Bar-Icon-Group"
+      style="position: absolute; top: 0; right: 0; margin-right:12px"
     >
-      <div
-        class="Icon-wrapper Icon-wrapper--titlebar Icon-wrapper--double--left"
-        style="padding-left: 18px"
-        @click="winMinimize"
-      >
-        <!-- minimize -->
-        <!-- <div class="Icon-wrapper"> -->
-        <svg
-          version="1.2"
-          baseProfile="tiny"
-          id="Layer_1"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          x="0px"
-          y="0px"
-          viewBox="0 0 14 2"
-          xml:space="preserve"
-          width="15px"
-          height="20px"
-          class="Icon Icon--minimize"
-        >
-          <line
-            fill="none"
-            stroke="#F6F2EB"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-miterlimit="10"
-            x1="1"
-            y1="1"
-            x2="13"
-            y2="1"
-          />
-        </svg>
-        <!-- </div> -->
-      </div>
-      <div
-        class="Icon-wrapper Icon-wrapper--titlebar Icon-wrapper--double--right"
-        style="padding-right: 18px"
-        @click="winClose"
-      >
-        <!-- close -->
-        <!-- <div class="Icon-wrapper"> -->
-        <svg
-          version="1.2"
-          baseProfile="tiny"
-          id="Layer_1"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          x="0px"
-          y="0px"
-          viewBox="0 0 12.6 12.6"
-          xml:space="preserve"
-          height="15px"
-          class="Icon Icon--close"
-        >
-          <line
-            fill="none"
-            stroke="#F6F2EB"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-miterlimit="10"
-            x1="1"
-            y1="1"
-            x2="11.6"
-            y2="11.6"
-          />
-          <line
-            fill="none"
-            stroke="#F6F2EB"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-miterlimit="10"
-            x1="11.6"
-            y1="1"
-            x2="1"
-            y2="11.6"
-          />
-        </svg>
-        <!-- </div> -->
-      </div>
+      <i class="el-icon-minus" @click="winMinimize"></i>
+      <i class="el-icon-circle-plus-outline" @click="openMiniWindow"></i>
+      <i class="el-icon-close" @click="winClose"></i>
     </div>
+    
   </nav>
 </template>
 
@@ -124,23 +48,46 @@ export default {
       this.$store.dispatch('toggleDrawer')
     },
 
+    openMiniWindow() {
+      console.log("open mini window")
+    },
+
     winClose() {
       ipcRenderer.send('window-close')
     },
 
     winMinimize() {
-      ipcRenderer.send('window-minimize', this.minToTray)
+      console.log("BENZZZZZZZ minimize")
+      ipcRenderer.send('window-minimize', false) // this.minToTray
     }
   }
 }
 </script>
 
-<style2 lang="scss" scoped>
+<style lang="scss" scoped>
 .Icon--close,
 .Icon--minimize {
   & line {
     stroke: $colorBlueGrey;
     transition: $transitionDefault;
+  }
+}
+
+.Bar-Icon-Group {
+  margin-top: 12px;
+  -webkit-app-region: no-drag;
+}
+
+.Bar-Icon-Group i {
+  // cursor: pointer;
+  font-size: 120%;
+  font-weight: bold;
+  width: 20px; 
+  height: 100%;
+  margin-left: 3px;
+  color : $colorBlueGrey;
+  &:hover {
+    color: $colorRed;
   }
 }
 
@@ -198,4 +145,4 @@ export default {
     stroke: $colorRed;
   }
 }
-</style2>
+</style>
